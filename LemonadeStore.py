@@ -58,61 +58,39 @@ class OrderState:
         )
 
 
-# --- TESTING THE IMPLEMENTATION ---
 if __name__ == "__main__":
+    import sys
+
+    def read_line(): 
+        return sys.stdin.readline().strip().split()
+
     orderState = OrderState()
 
-    # Manual Testing (You may ignore)
-    # Sample case 0
-    commands = [
-        ("UPDATE_LIMIT", 100, 1000),
-        ("ORDER_UPDATE", 1, 1, "lemonade", 100),
-        ("ORDER_UPDATE", 2, 2, "hot_chocolate", 50),
-        ("PRINT_STATE",),
-        ("ORDER_UPDATE", 3, 3, "lemonade", 75),
-        ("ORDER_UPDATE", 4, 1, "lemonade", 150),
-        ("ORDER_UPDATE", 5, 1, "water", 50),
-        ("PRINT_STATE",),
-    ]
+    while True:
+        line = read_line()
+        if not line:
+            break
 
-    # Sample case 1
-    commands = [
-         ("UPDATE_LIMIT", 100, 1000),
-        ("ORDER_UPDATE", 1, 1, "lemonade", 100),
-        ("ORDER_UPDATE", 2, 2, "hot_chocolate", 50),
-        ("PRINT_STATE",),
-        ("CLOSE_STORE", 1),
-        ("PRINT_STATE",),
-        ("ORDER_UPDATE", 3, 2, "hot_chocolate", 0),
-        ("PRINT_STATE",),
-    ]
+        operation = line[0]
 
-    # Sample case 2
-    commands = [
-        ("UPDATE_LIMIT", 2, 100),
-        ("ORDER_UPDATE", 1, 1, "lemonade", 100),
-        ("ORDER_UPDATE", 2, 2, "hot_chocolate", 50),
-        ("ORDER_UPDATE", 3, 2, "lemonade", 1),
-        ("ORDER_UPDATE", 4, 3, "hot_chocolate", 1),
+        if operation == 'UPDATE_LIMIT':
+            numberOfStores = int(line[1])
+            perBeverageTotal = int(line[2])
+            orderState.UpdateLimit(numberOfStores, perBeverageTotal)
 
-    ]   
+        elif operation == 'ORDER_UPDATE':
+            uniqueId = int(line[1])
+            storeId = int(line[2])
+            beverageName = line[3]
+            quantity = int(line[4])
+            orderState.OrderUpdate(uniqueId, storeId, beverageName, quantity)
 
-    # Sample case 3
-    commands = [
-        ("UPDATE_LIMIT", 1, 100),
-        ("ORDER_UPDATE", 1, 1, "lemonade", 100), 
-        ("UPDATE_LIMIT", 1, 50),
-        ("PRINT_STATE",),
-    ]
+        elif operation == 'CLOSE_STORE':
+            storeId = int(line[1])
+            orderState.CloseStore(storeId)
 
-
-
-    for cmd in commands:
-        if cmd[0] == "UPDATE_LIMIT":
-            orderState.UpdateLimits(cmd[1], cmd[2])
-        elif cmd[0] == "ORDER_UPDATE":
-            orderState.OrderUpdate(cmd[1], cmd[2], cmd[3], cmd[4])
-        elif cmd[0] == "PRINT_STATE":
+        elif operation == 'PRINT_STATE':
             orderState.PrintState()
-        elif cmd[0] == "CLOSE_STORE":
-            orderState.CloseStore(cmd[1])
+
+        else:
+            raise ValueError("Invalid Input")
