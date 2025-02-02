@@ -53,8 +53,8 @@ class OrderState:
         number_of_beverages = sum(self.beverage_totals.values())
 
         print(
-            f"number_of_stores:{number_of_stores}, number_of_orders:{number_of_orders}, "
-            f"number_of_different_beverages:{number_of_different_beverages}, number_of_beverages:{number_of_beverages}"
+            f"number_of_stores: {number_of_stores}, number_of_orders: {number_of_orders}, "
+            f"number_of_different_beverages: {number_of_different_beverages}, number_of_beverages: {number_of_beverages}"
         )
 
 
